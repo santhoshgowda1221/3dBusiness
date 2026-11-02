@@ -1,6 +1,7 @@
 "use client"
 
 import { useActionState } from "react"
+import { BRAND } from "@lib/brand"
 import Input from "@modules/common/components/input"
 import { LOGIN_VIEW } from "@modules/account/templates/login-template"
 import ErrorMessage from "@modules/checkout/components/error-message"
@@ -21,11 +22,10 @@ const Register = ({ setCurrentView }: Props) => {
       data-testid="register-page"
     >
       <h1 className="text-large-semi uppercase mb-6">
-        Become a Medusa Store Member
+        Create your {BRAND.name} account
       </h1>
       <p className="text-center text-base-regular text-ui-fg-base mb-4">
-        Create your Medusa Store Member profile, and get access to an enhanced
-        shopping experience.
+        Save your addresses, track orders and reorder prints faster.
       </p>
       {message?.state === "verification_required" && (
         <div
@@ -81,7 +81,7 @@ const Register = ({ setCurrentView }: Props) => {
           data-testid="register-error"
         />
         <span className="text-center text-ui-fg-base text-small-regular mt-6">
-          By creating an account, you agree to Medusa Store&apos;s{" "}
+          By creating an account, you agree to {BRAND.name}&apos;s{" "}
           <LocalizedClientLink
             href="/content/privacy-policy"
             className="underline"

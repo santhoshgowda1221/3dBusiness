@@ -1,10 +1,9 @@
-export type PrintMaterial = "pla" | "petg" | "pa-cf"
+import { MATERIALS, PrintMaterial } from "@lib/print-materials"
 
-export const MATERIAL_OPTIONS: { value: PrintMaterial; label: string }[] = [
-  { value: "pla", label: "PLA" },
-  { value: "petg", label: "PETG" },
-  { value: "pa-cf", label: "PA-CF (carbon fibre nylon)" },
-]
+export type { PrintMaterial }
+
+export const MATERIAL_OPTIONS: { value: PrintMaterial; label: string }[] =
+  MATERIALS.map((m) => ({ value: m.key, label: m.label }))
 
 export type PrintQuoteResponse = {
   file_name: string

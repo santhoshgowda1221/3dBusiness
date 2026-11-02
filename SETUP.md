@@ -88,6 +88,12 @@ shared through git, only code is.
 | Quote page UI and 3D viewer | `apps/storefront/src/modules/quote/` |
 | Cart server actions | `apps/storefront/src/lib/data/print-cart.ts` |
 | Portable dev database | `scripts/dev-db.mjs` |
+| **Shop name, contact details, menu** | `apps/storefront/src/lib/brand.ts` |
+| **Site wording: services, FAQ, reviews, projects** | `apps/storefront/src/modules/site/data.ts` |
+| Material descriptions shown on the site | `apps/storefront/src/lib/print-materials.ts` |
+| Homepage sections and shared site components | `apps/storefront/src/modules/site/components/` |
+| Services, Projects, Design, About, Contact pages | `apps/storefront/src/app/[countryCode]/(main)/` |
+| Starter print catalog (hides demo clothing) | `apps/backend/src/migration-scripts/shop-catalog.ts` |
 
 Prices are always recomputed on the server from the uploaded file.
 

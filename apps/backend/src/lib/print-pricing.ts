@@ -15,6 +15,22 @@ export const PRINT_MATERIALS = {
     print_rate_cm3_hr: 10,
     machine_rate_per_hr: 60,
   },
+  asa: {
+    label: "ASA (UV resistant)",
+    density_g_cm3: 1.07,
+    price_per_gram: 2.6,
+    print_rate_cm3_hr: 10,
+    // Needs an enclosed, heated chamber
+    machine_rate_per_hr: 70,
+  },
+  tpu: {
+    label: "TPU 95A (flexible)",
+    density_g_cm3: 1.21,
+    price_per_gram: 3.5,
+    // Flexible filament has to be printed slowly
+    print_rate_cm3_hr: 5,
+    machine_rate_per_hr: 70,
+  },
   "pa-cf": {
     label: "PA-CF (carbon fibre nylon)",
     density_g_cm3: 1.2,

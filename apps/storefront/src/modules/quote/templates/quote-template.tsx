@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic"
 import Link from "next/link"
-import { useParams, useRouter } from "next/navigation"
+import { useParams, useRouter, useSearchParams } from "next/navigation"
 import { ChangeEvent, DragEvent, useEffect, useState } from "react"
 
 import { getPrintCartId, refreshCart } from "@lib/data/print-cart"
@@ -44,7 +44,11 @@ const inr = new Intl.NumberFormat("en-IN", {
 export default function QuoteTemplate() {
   const [file, setFile] = useState<File | null>(null)
   const [fileData, setFileData] = useState<ArrayBuffer | null>(null)
-  const [material, setMaterial] = useState<PrintMaterial>("pla")
+  // Links like /quote?material=petg preselect a material
+  const requested = useSearchParams().get("material")
+  const [material, setMaterial] = useState<PrintMaterial>(
+    MATERIAL_OPTIONS.find((m) => m.value === requested)?.value ?? "pla"
+  )
   const [infill, setInfill] = useState(20)
   const [quantity, setQuantity] = useState(1)
   const [result, setResult] = useState<PrintQuoteResponse | null>(null)

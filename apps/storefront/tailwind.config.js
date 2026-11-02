@@ -20,6 +20,16 @@ module.exports = {
         padding: "padding-top padding-right padding-bottom padding-left",
       },
       colors: {
+        // Brand accent: filament orange
+        brand: {
+          50: "#FFF7ED",
+          100: "#FFEDD5",
+          200: "#FED7AA",
+          500: "#F97316",
+          600: "#EA580C",
+          700: "#C2410C",
+        },
+        ink: "#0F172A",
         grey: {
           0: "#FFFFFF",
           5: "#F9FAFB",
@@ -58,7 +68,9 @@ module.exports = {
         "3xl": "2rem",
       },
       fontFamily: {
+        display: ["var(--font-display)", "var(--font-sans)", "sans-serif"],
         sans: [
+          "var(--font-sans)",
           "Inter",
           "-apple-system",
           "BlinkMacSystemFont",

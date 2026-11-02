@@ -1,4 +1,5 @@
 import { Metadata } from "next"
+import { BRAND } from "@lib/brand"
 
 import ProfilePhone from "@modules/account//components/profile-phone"
 import ProfileBillingAddress from "@modules/account/components/profile-billing-address"
@@ -10,7 +11,7 @@ import { retrieveCustomer } from "@lib/data/customer"
 
 export const metadata: Metadata = {
   title: "Profile",
-  description: "View and edit your Medusa Store profile.",
+  description: `View and edit your ${BRAND.name} profile.`,
 }
 
 export default async function Profile() {

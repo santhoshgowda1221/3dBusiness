@@ -1,8 +1,14 @@
 import { Metadata } from "next"
 
-import FeaturedProducts from "@modules/home/components/featured-products"
-import Hero from "@modules/home/components/hero"
-import { listCollections } from "@lib/data/collections"
+import { BRAND } from "@lib/brand"
+import CtaBand from "@modules/site/components/cta-band"
+import Faq from "@modules/site/components/faq"
+import Hero from "@modules/site/components/hero"
+import HowItWorks from "@modules/site/components/how-it-works"
+import MaterialsExplorer from "@modules/site/components/materials-explorer"
+import ReadyToShip from "@modules/site/components/ready-to-ship"
+import Reviews from "@modules/site/components/reviews"
+import ServicesGrid from "@modules/site/components/services-grid"
 import { getRegion, listRegions } from "@lib/data/regions"
 import { toJsonLd } from "@lib/util/product-structured-data"
 import { getSiteOrigin, listCountryCodes, STORE_NAME } from "@lib/util/site"
@@ -18,9 +24,8 @@ export async function generateMetadata(props: {
   const [origin, regions] = await Promise.all([getSiteOrigin(), listRegions()])
 
   return {
-    title: "Medusa Next.js Starter Template",
-    description:
-      "A performant frontend ecommerce starter template with Next.js 16 and Medusa.",
+    title: `${BRAND.name} | ${BRAND.tagline}`,
+    description: BRAND.description,
     alternates: {
       canonical: `${origin}/${countryCode}`,
       languages: {
@@ -45,11 +50,7 @@ export default async function Home(props: {
 
   const region = await getRegion(countryCode)
 
-  const { collections } = await listCollections({
-    fields: "id, handle, title",
-  })
-
-  if (!collections || !region) {
+  if (!region) {
     return null
   }
 
@@ -89,11 +90,13 @@ export default async function Home(props: {
         dangerouslySetInnerHTML={{ __html: toJsonLd(structuredData) }}
       />
       <Hero />
-      <div className="py-12">
-        <ul className="flex flex-col gap-x-6">
-          <FeaturedProducts collections={collections} region={region} />
-        </ul>
-      </div>
+      <ReadyToShip region={region} />
+      <HowItWorks />
+      <MaterialsExplorer />
+      <ServicesGrid />
+      <Reviews />
+      <Faq />
+      <CtaBand />
     </>
   )
 }

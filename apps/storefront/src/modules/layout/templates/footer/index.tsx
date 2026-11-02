@@ -1,215 +1,122 @@
-import { listCategories } from "@lib/data/categories";
-import { listCollections } from "@lib/data/collections";
-import { Text, clx } from "@modules/common/components/ui";
+import { BRAND, NAV_LINKS, whatsappLink } from "@lib/brand"
+import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import { SERVICES } from "@modules/site/data"
 
-import LocalizedClientLink from "@modules/common/components/localized-client-link";
-import MedusaCTA from "@modules/layout/components/medusa-cta";
+const POLICY_LINKS = [
+  { label: "Shipping", href: "/shipping" },
+  { label: "Returns", href: "/returns" },
+  { label: "Terms", href: "/terms" },
+  { label: "Privacy", href: "/privacy" },
+]
 
-export default async function Footer() {
-  const [{ collections }, productCategories] = await Promise.all([
-    listCollections({ fields: "id,handle,title" }),
-    listCategories({
-      fields:
-        "id,name,handle,parent_category_id,category_children.id,category_children.name,category_children.handle",
-    }),
-  ]);
-
+export default function Footer() {
   return (
-    <footer className="border-t border-ui-border-base w-full">
-      <div className="content-container flex flex-col w-full">
-        <div className="flex flex-col gap-y-6 xsmall:flex-row items-start justify-between py-40">
-          <div>
-            <LocalizedClientLink
-              href="/"
-              className="txt-compact-xlarge-plus text-ui-fg-subtle hover:text-ui-fg-base uppercase"
-            >
-              Medusa Store
-            </LocalizedClientLink>
-          </div>
-          <div className="text-small-regular gap-10 md:gap-x-16 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4">
-            {productCategories && productCategories?.length > 0 && (
-              <div className="flex flex-col gap-y-2">
-                <span className="txt-small-plus txt-ui-fg-base">
-                  Categories
-                </span>
-                <ul
-                  className="grid grid-cols-1 gap-2"
-                  data-testid="footer-categories"
-                >
-                  {productCategories?.slice(0, 6).map((c) => {
-                    if (c.parent_category_id) {
-                      return;
-                    }
-
-                    const children =
-                      c.category_children?.map((child) => ({
-                        name: child.name,
-                        handle: child.handle,
-                        id: child.id,
-                      })) || null;
-
-                    return (
-                      <li
-                        className="flex flex-col gap-2 text-ui-fg-subtle txt-small"
-                        key={c.id}
-                      >
-                        <LocalizedClientLink
-                          className={clx(
-                            "hover:text-ui-fg-base",
-                            children && "txt-small-plus"
-                          )}
-                          href={`/categories/${c.handle}`}
-                          data-testid="category-link"
-                        >
-                          {c.name}
-                        </LocalizedClientLink>
-                        {children && (
-                          <ul className="grid grid-cols-1 ml-3 gap-2">
-                            {children &&
-                              children.map((child) => (
-                                <li key={child.id}>
-                                  <LocalizedClientLink
-                                    className="hover:text-ui-fg-base"
-                                    href={`/categories/${child.handle}`}
-                                    data-testid="category-link"
-                                  >
-                                    {child.name}
-                                  </LocalizedClientLink>
-                                </li>
-                              ))}
-                          </ul>
-                        )}
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            )}
-            {collections && collections.length > 0 && (
-              <div className="flex flex-col gap-y-2">
-                <span className="txt-small-plus txt-ui-fg-base">
-                  Collections
-                </span>
-                <ul
-                  className={clx(
-                    "grid grid-cols-1 gap-2 text-ui-fg-subtle txt-small",
-                    {
-                      "grid-cols-2": (collections?.length || 0) > 3,
-                    }
-                  )}
-                >
-                  {collections?.slice(0, 6).map((c) => (
-                    <li key={c.id}>
-                      <LocalizedClientLink
-                        className="hover:text-ui-fg-base"
-                        href={`/collections/${c.handle}`}
-                      >
-                        {c.title}
-                      </LocalizedClientLink>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            <div className="flex flex-col gap-y-2">
-              <span className="txt-small-plus txt-ui-fg-base">
-                Customer service
-              </span>
-              <ul className="grid grid-cols-1 gap-y-2 text-ui-fg-subtle txt-small">
-                <li>
-                  <LocalizedClientLink
-                    className="hover:text-ui-fg-base"
-                    href="/shipping"
-                  >
-                    Shipping information
-                  </LocalizedClientLink>
-                </li>
-                <li>
-                  <LocalizedClientLink
-                    className="hover:text-ui-fg-base"
-                    href="/returns"
-                  >
-                    Return policy
-                  </LocalizedClientLink>
-                </li>
-                <li>
-                  <LocalizedClientLink
-                    className="hover:text-ui-fg-base"
-                    href="/terms"
-                  >
-                    Terms of service
-                  </LocalizedClientLink>
-                </li>
-                <li>
-                  <LocalizedClientLink
-                    className="hover:text-ui-fg-base"
-                    href="/privacy"
-                  >
-                    Privacy policy
-                  </LocalizedClientLink>
-                </li>
-                <li>
-                  <LocalizedClientLink
-                    className="hover:text-ui-fg-base"
-                    href="/contact"
-                  >
-                    Contact
-                  </LocalizedClientLink>
-                </li>
-                <li>
-                  <LocalizedClientLink
-                    className="hover:text-ui-fg-base"
-                    href="/search"
-                  >
-                    Search
-                  </LocalizedClientLink>
-                </li>
-              </ul>
-            </div>
-            <div className="flex flex-col gap-y-2">
-              <span className="txt-small-plus txt-ui-fg-base">Medusa</span>
-              <ul className="grid grid-cols-1 gap-y-2 text-ui-fg-subtle txt-small">
-                <li>
-                  <a
-                    href="https://github.com/medusajs"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="hover:text-ui-fg-base"
-                  >
-                    GitHub
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://docs.medusajs.com"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="hover:text-ui-fg-base"
-                  >
-                    Documentation
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://github.com/medusajs/dtc-starter"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="hover:text-ui-fg-base"
-                  >
-                    Source code
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
+    <footer className="border-t border-grey-20 bg-grey-5 w-full">
+      <div className="content-container grid gap-10 py-16 xsmall:grid-cols-2 small:grid-cols-[2fr_1fr_1fr_1.5fr]">
+        <div>
+          <LocalizedClientLink
+            href="/"
+            className="font-display text-xl font-semibold text-ink"
+          >
+            {BRAND.name}
+          </LocalizedClientLink>
+          <p className="mt-3 max-w-xs text-sm text-grey-60">{BRAND.tagline}.</p>
+          <LocalizedClientLink
+            href="/quote"
+            className="mt-6 inline-flex h-10 items-center rounded-full bg-brand-600 px-5 text-sm font-semibold text-white hover:bg-brand-700"
+          >
+            Get an instant quote
+          </LocalizedClientLink>
         </div>
-        <div className="flex w-full mb-16 justify-between text-ui-fg-muted">
-          <Text className="txt-compact-small">
-            © {new Date().getFullYear()} Medusa Store. All rights reserved.
-          </Text>
-          <MedusaCTA />
+
+        <FooterColumn title="Explore">
+          {NAV_LINKS.filter((l) => l.href !== "/").map((l) => (
+            <li key={l.href}>
+              <LocalizedClientLink href={l.href} className="hover:text-ink">
+                {l.label}
+              </LocalizedClientLink>
+            </li>
+          ))}
+        </FooterColumn>
+
+        <FooterColumn title="Services">
+          {SERVICES.map((s) => (
+            <li key={s.id}>
+              <LocalizedClientLink
+                href={`/services#${s.id}`}
+                className="hover:text-ink"
+              >
+                {s.title}
+              </LocalizedClientLink>
+            </li>
+          ))}
+        </FooterColumn>
+
+        <FooterColumn title="Contact">
+          <li>
+            <a
+              href={whatsappLink()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-ink"
+            >
+              WhatsApp {BRAND.contact.phoneDisplay}
+            </a>
+          </li>
+          <li>
+            <a href={`mailto:${BRAND.contact.email}`} className="hover:text-ink">
+              {BRAND.contact.email}
+            </a>
+          </li>
+          <li>
+            <a
+              href={`https://instagram.com/${BRAND.contact.instagram}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-ink"
+            >
+              Instagram @{BRAND.contact.instagram}
+            </a>
+          </li>
+          <li className="text-grey-50">
+            {BRAND.city} · {BRAND.hours}
+          </li>
+        </FooterColumn>
+      </div>
+
+      <div className="border-t border-grey-20">
+        <div className="content-container flex flex-col justify-between gap-3 py-6 text-xs text-grey-50 xsmall:flex-row">
+          <p>
+            © {new Date().getFullYear()} {BRAND.name}. All rights reserved.
+          </p>
+          <ul className="flex flex-wrap gap-4">
+            {POLICY_LINKS.map((l) => (
+              <li key={l.href}>
+                <LocalizedClientLink href={l.href} className="hover:text-ink">
+                  {l.label}
+                </LocalizedClientLink>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </footer>
-  );
+  )
+}
+
+function FooterColumn({
+  title,
+  children,
+}: {
+  title: string
+  children: React.ReactNode
+}) {
+  return (
+    <div>
+      <p className="mb-4 text-xs font-semibold uppercase tracking-[0.14em] text-ink">
+        {title}
+      </p>
+      <ul className="flex flex-col gap-2 text-sm text-grey-60">{children}</ul>
+    </div>
+  )
 }

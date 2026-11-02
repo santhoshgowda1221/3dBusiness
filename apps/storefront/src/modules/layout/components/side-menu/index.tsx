@@ -10,11 +10,11 @@ import { Fragment } from "react"
 import CountrySelect from "../country-select"
 import LanguageSelect from "../language-select"
 import { Locale } from "@lib/data/locales"
+import { BRAND, NAV_LINKS } from "@lib/brand"
 
-
-const SideMenuItems = {
-  Home: "/",
-  Store: "/store",
+const SideMenuItems: Record<string, string> = {
+  ...Object.fromEntries(NAV_LINKS.map((l) => [l.label, l.href])),
+  "Get a quote": "/quote",
   Account: "/account",
   Cart: "/cart",
 }
@@ -131,7 +131,7 @@ const SideMenu = ({ regions, locales, currentLocale }: SideMenuProps) => {
                         />
                       </div>
                       <Text className="flex justify-between txt-compact-small">
-                        © {new Date().getFullYear()} Medusa Store. All rights
+                        © {new Date().getFullYear()} {BRAND.name}. All rights
                         reserved.
                       </Text>
                     </div>

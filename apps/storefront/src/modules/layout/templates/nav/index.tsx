@@ -1,5 +1,6 @@
 import { Suspense } from "react"
 
+import { BRAND, NAV_LINKS } from "@lib/brand"
 import { listLocales } from "@lib/data/locales"
 import { getLocale } from "@lib/data/locale-actions"
 import { listRegions } from "@lib/data/regions"
@@ -18,39 +19,58 @@ export default async function Nav() {
 
   return (
     <div className="sticky top-0 inset-x-0 z-50 group">
-      <header className="relative h-16 mx-auto border-b duration-200 bg-white border-ui-border-base">
-        <nav className="content-container txt-xsmall-plus text-ui-fg-subtle flex items-center justify-between w-full h-full text-small-regular">
-          <div className="flex-1 basis-0 h-full flex items-center">
-            <div className="h-full">
-              <SideMenu regions={regions} locales={locales} currentLocale={currentLocale} />
+      <header className="relative h-16 mx-auto border-b duration-200 bg-white/90 backdrop-blur border-grey-20">
+        <nav className="content-container flex items-center justify-between gap-6 w-full h-full text-sm">
+          <div className="flex items-center gap-3 h-full">
+            {/* Slide-out menu on phones and tablets */}
+            <div className="h-full small:hidden">
+              <SideMenu
+                regions={regions}
+                locales={locales}
+                currentLocale={currentLocale}
+              />
             </div>
-          </div>
-
-          <div className="flex items-center h-full">
             <LocalizedClientLink
               href="/"
-              className="txt-compact-xlarge-plus hover:text-ui-fg-base uppercase"
+              className="flex items-center gap-2 font-display text-lg font-semibold text-ink"
               data-testid="nav-store-link"
             >
-              Medusa Store
+              <span
+                aria-hidden
+                className="grid h-8 w-8 place-items-center rounded-lg bg-brand-600 text-white"
+              >
+                ▤
+              </span>
+              {BRAND.name}
             </LocalizedClientLink>
           </div>
 
-          <div className="flex items-center gap-x-6 h-full flex-1 basis-0 justify-end">
+          <ul className="hidden small:flex items-center gap-6 text-grey-60">
+            {NAV_LINKS.map((link) => (
+              <li key={link.href}>
+                <LocalizedClientLink
+                  href={link.href}
+                  className="hover:text-ink transition-colors"
+                >
+                  {link.label}
+                </LocalizedClientLink>
+              </li>
+            ))}
+          </ul>
+
+          <div className="flex items-center gap-x-5 h-full text-grey-60">
             <Search />
-            <div className="hidden small:flex items-center gap-x-6 h-full">
-              <LocalizedClientLink
-                className="hover:text-ui-fg-base"
-                href="/account"
-                data-testid="nav-account-link"
-              >
-                Account
-              </LocalizedClientLink>
-            </div>
+            <LocalizedClientLink
+              className="hidden small:block hover:text-ink"
+              href="/account"
+              data-testid="nav-account-link"
+            >
+              Account
+            </LocalizedClientLink>
             <Suspense
               fallback={
                 <LocalizedClientLink
-                  className="hover:text-ui-fg-base flex gap-2"
+                  className="hover:text-ink flex gap-2"
                   href="/cart"
                   data-testid="nav-cart-link"
                 >
@@ -60,6 +80,12 @@ export default async function Nav() {
             >
               <CartButton />
             </Suspense>
+            <LocalizedClientLink
+              href="/quote"
+              className="hidden xsmall:inline-flex h-9 items-center rounded-full bg-brand-600 px-4 text-sm font-semibold text-white hover:bg-brand-700"
+            >
+              Get a quote
+            </LocalizedClientLink>
           </div>
         </nav>
       </header>
